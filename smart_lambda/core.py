@@ -18,3 +18,17 @@ class SmartLambda:
         :param function: Lambda-Function
         """
         self.function = function
+
+    def __call__(self, *args, **kwargs) -> T:
+        """
+        Override call-method to allow the execution of the underlying lambda-function.
+
+        Usage:
+        val = s_lambda()
+
+        :param args:   Positional parameter to lambda-function
+        :param kwargs: Keyword parameter to lambda-function
+
+        :return: Return-Value of underlying lambda-function
+        """
+        return self.function(*args, **kwargs)
