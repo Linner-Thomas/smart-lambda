@@ -126,3 +126,44 @@ class TestSmartLambda(unittest.TestCase):
 
         self.assertEqual([[1, 2, 3], [4, 5, 6]], constants, f"Smart-Lambda parsed constants not matching: "
                                                             f"{[[1, 2, 3], [4, 5, 6]]} != {constants}")
+
+    @test("SMART-LAMBDA PARSE TUPLE-CONSTANT")
+    def testParseTupleConstant(self):
+        # Arithmetic on List-Constants will not be pre-evaluated
+        print(f"\t Validate: (lambda: (1, 2)) -> [(1, 2)]")
+
+        s_lambda = SmartLambda(lambda: (1, 2))
+        constants = s_lambda.constants
+
+        self.assertEqual([(1, 2)], constants, f"Smart-Lambda parsed constants not matching: {[(1, 2)]} != {constants}")
+
+    @test("SMART-LAMBDA PARSE TUPLE-CONSTANT-LONG")
+    def testParseTupleConstantLong(self):
+        print(f"\t Validate: (lambda: (1, 2, 3)) -> [(1, 2, 3)]")
+
+        s_lambda = SmartLambda(lambda: (1, 2, 3))
+        constants = s_lambda.constants
+
+        self.assertEqual([(1, 2, 3)], constants, f"Smart-Lambda parsed constants not matching: "
+                                                 f"{[(1, 2, 3)]} != {constants}")
+
+    @test("SMART-LAMBDA PARSE TUPLE-CONSTANTS-COMBINED")
+    def testParseTupleConstantsCombined(self):
+        # Arithmetic on List-Constants will be pre-evaluated
+        print(f"\t Validate: (lambda: (1, 2) + (3, 4)) -> [(1, 2, 3, 4)]")
+
+        s_lambda = SmartLambda(lambda: (1, 2) + (3, 4))
+        constants = s_lambda.constants
+
+        self.assertEqual([(1, 2, 3, 4)], constants, f"Smart-Lambda parsed constants not matching: "
+                                                    f"{[(1, 2, 3, 4)]} != {constants}")
+
+    @test("SMART-LAMBDA PARSE TUPLE-CONSTANTS-SEPARATED")
+    def testParseTupleConstantsSeparated(self):
+        print(f"\t Validate: (lambda x: (1, 2) + (3, 4) * x) -> [(1, 2) + (3, 4)]")
+
+        s_lambda = SmartLambda(lambda x: (1, 2) + (3, 4) * x)
+        constants = s_lambda.constants
+
+        self.assertEqual([(1, 2), (3, 4)], constants, f"Smart-Lambda parsed constants not matching: "
+                                                      f"{[(1, 2), (3, 4)]} != {constants}")
