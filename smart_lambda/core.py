@@ -2,6 +2,8 @@ from typing import Callable, TypeVar
 
 import dis
 
+from lexeme import Constant
+
 # Define type-variable for lambda return-type
 T = TypeVar('T')
 
@@ -55,9 +57,10 @@ class SmartLambda:
                 self.constants.append(set(set_constants))                   # Append entries as set
 
             # Set-Constant (>= 3.9, entries loaded as frozenset for long lists)
-            # -> set will be loaded correctly using 'LOAD_CONST'
             if instruction.opname == 'SET_UPDATE':
-                pass
+                set_constants = self.constants[-1:]             # Get entries as frozenset
+                self.constants = self.constants[0:-1]           # Remove entries
+                self.constants.append(set(*set_constants))      # Append entries as set
 
             # Dict-Constant
             # Values get loaded separate using 'LOAD_CONST'
@@ -67,6 +70,9 @@ class SmartLambda:
                 dict_vals = self.constants[-instruction.argval-1:-1]                            # Get vals
                 self.constants = self.constants[0:-instruction.argval-1]                        # Remove keys and vals
                 self.constants.append({key: val for key, val in zip(*dict_keys, dict_vals)})    # Append dict
+
+        # Convert constants into constant-lexeme
+        self.constants = [Constant(constant) for constant in self.constants]
 
     def __call__(self, *args, **kwargs) -> T:
         """
