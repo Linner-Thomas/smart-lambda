@@ -25,6 +25,7 @@ def test(name: str, parameter = None):
             print(divider)
             print(f"     {header}     ")
             print(divider)
+            print(f"[Starting]")
 
             # Parameterized test-case
             if parameter:
