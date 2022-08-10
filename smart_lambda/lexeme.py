@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import TypeVar
 
+# Define type-variable for constant type
 T = TypeVar('T')
 
 

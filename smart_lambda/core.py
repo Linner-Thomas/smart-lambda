@@ -2,7 +2,7 @@ from typing import Callable, TypeVar
 
 import dis
 
-from lexeme import Constant
+from smart_lambda.lexeme import Constant
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
