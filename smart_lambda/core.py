@@ -25,21 +25,28 @@ class SmartLambda:
         self.__parse_constants()
 
     def __parse_constants(self) -> None:
+        """
+        Parse all constants from underlying lambda-function and store internally.
+        """
         [print(instruction) for instruction in dis.get_instructions(self.function)]
 
-        for index, instruction in enumerate(dis.get_instructions(self.function)):
+        # Iterate over all instructions in lambda-function
+        for instruction in dis.get_instructions(self.function):
+            # Primitive-Constant (int, str, ...)
             if instruction.opname == 'LOAD_CONST':
-                self.constants.append(instruction.argval)
+                self.constants.append(instruction.argval)       # Append constant
 
+            # List-Constant (`argval` stores entry-count)
             if instruction.opname == 'BUILD_LIST' and instruction.argval > 0:
-                list_constants = self.constants[-instruction.argval:]
-                self.constants = self.constants[0:-instruction.argval]
-                self.constants.append(list_constants)
+                list_constants = self.constants[-instruction.argval:]       # Get last `argval` constants
+                self.constants = self.constants[0:-instruction.argval]      # Remove last `argval` constants
+                self.constants.append(list_constants)                       # Append entries as list
 
+            # List-Constant (>= 3.9, entries loaded as single tuple for long lists)
             if instruction.opname == 'LIST_EXTEND':
-                list_constants = self.constants[-1:]
-                self.constants = self.constants[0:-1]
-                self.constants.append(list(*list_constants))
+                list_constants = self.constants[-1:]            # Get entries [(entries)]
+                self.constants = self.constants[0:-1]           # Remove entries
+                self.constants.append(list(*list_constants))    # Append entries as list
 
     def __call__(self, *args, **kwargs) -> T:
         """
