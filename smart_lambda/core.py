@@ -27,13 +27,19 @@ class SmartLambda:
     def __parse_constants(self) -> None:
         [print(instruction) for instruction in dis.get_instructions(self.function)]
 
-        self.constants = \
-            [
-                instruction.argval
-                for instruction
-                in dis.get_instructions(self.function)
-                if instruction.opname == 'LOAD_CONST'
-            ]
+        for index, instruction in enumerate(dis.get_instructions(self.function)):
+            if instruction.opname == 'LOAD_CONST':
+                self.constants.append(instruction.argval)
+
+            if instruction.opname == 'BUILD_LIST' and instruction.argval > 0:
+                list_constants = self.constants[-instruction.argval:]
+                self.constants = self.constants[0:-instruction.argval]
+                self.constants.append(list_constants)
+
+            if instruction.opname == 'LIST_EXTEND':
+                list_constants = self.constants[-1:]
+                self.constants = self.constants[0:-1]
+                self.constants.append(list(*list_constants))
 
     def __call__(self, *args, **kwargs) -> T:
         """
