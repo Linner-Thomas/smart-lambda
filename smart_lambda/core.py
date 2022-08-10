@@ -1,5 +1,7 @@
 from typing import Callable, TypeVar
 
+import dis
+
 # Define type-variable for lambda return-type
 T = TypeVar('T')
 
@@ -18,6 +20,18 @@ class SmartLambda:
         :param function: Lambda-Function
         """
         self.function = function
+        self.constants = []
+
+        self.__parse_constants()
+
+    def __parse_constants(self) -> None:
+        self.constants = \
+            [
+                instruction.argval
+                for instruction
+                in dis.get_instructions(self.function)
+                if instruction.opname == 'LOAD_CONST'
+            ]
 
     def __call__(self, *args, **kwargs) -> T:
         """

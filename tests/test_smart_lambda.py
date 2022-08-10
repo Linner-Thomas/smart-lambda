@@ -37,6 +37,6 @@ class TestSmartLambda(unittest.TestCase):
         print(f"\t Validate: (lambda: 1) -> [1]")
 
         s_lambda = SmartLambda(lambda: 1)
-        #constants = SmartLambda.constants
+        constants = s_lambda.constants
 
-        #self.assertEqual([1], constants, f"Smart-Lambda parsed constants not matching: {[1]} != {constants}")
+        self.assertEqual([1], constants, f"Smart-Lambda parsed constants not matching: {[1]} != {constants}")
