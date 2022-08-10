@@ -2,7 +2,7 @@ from typing import Callable, TypeVar
 
 import dis
 
-from smart_lambda.lexeme import Constant, Parameter
+from smart_lambda.lexeme import BinaryOperation, BinaryOperations, Constant, Parameter
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
@@ -24,9 +24,11 @@ class SmartLambda:
         self.function = function
         self.parameter = []
         self.constants = []
+        self.binary_operations = []
 
         self.__parse_parameter()
         self.__parse_constants()
+        self.__parse_binary_operations()
 
     def __parse_parameter(self) -> None:
         """
@@ -85,6 +87,22 @@ class SmartLambda:
 
         # Convert constants into constant-lexeme
         self.constants = [Constant(constant) for constant in self.constants]
+
+    def __parse_binary_operations(self) -> None:
+        """
+        Parse all binary-operations from underlying lambda-function and store internally.
+        """
+        [print(instruction) for instruction in dis.get_instructions(self.function)]
+        # TODO: Currently only works for parameter!
+        # This will probably require a rework of the whole parser system, because we need the last two operands,
+        # which can be a mixture of constants and parameter ...
+
+        # Iterate over all instructions in lambda-function
+        for instruction in dis.get_instructions(self.function):
+            # Addition
+            if instruction.opname == 'BINARY_ADD':
+                operands = self.parameter[-2:]
+                self.binary_operations.append(BinaryOperation(BinaryOperations.ADD, operands))
 
     def __call__(self, *args, **kwargs) -> T:
         """
