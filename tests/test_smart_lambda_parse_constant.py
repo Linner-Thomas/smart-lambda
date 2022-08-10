@@ -6,7 +6,7 @@ from smart_lambda.lexeme import Constant
 
 
 class TestSmartLambdaParseConstant(unittest.TestCase):
-    @test("SMART-LAMBDA PARSE NO-CONSTANT")
+    @test("SMART-LAMBDA PARSE-CONSTANT NO-CONSTANT")
     def testParseNoConstant(self):
         expected = []
 
@@ -18,7 +18,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE NONE-CONSTANT")
+    @test("SMART-LAMBDA PARSE-CONSTANT NONE-CONSTANT")
     def testParseNoneConstant(self):
         expected = [Constant(None)]
 
@@ -30,7 +30,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE INT-CONSTANT")
+    @test("SMART-LAMBDA PARSE-CONSTANT INT-CONSTANT")
     def testParseIntConstant(self):
         expected = [Constant(1)]
 
@@ -42,7 +42,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE STR-CONSTANT")
+    @test("SMART-LAMBDA PARSE-CONSTANT STR-CONSTANT")
     def testParseStrConstant(self):
         expected = [Constant('str')]
 
@@ -54,7 +54,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE INT-CONSTANTS-COMBINED")
+    @test("SMART-LAMBDA PARSE-CONSTANT INT-CONSTANTS-COMBINED")
     def testParseIntConstantsCombined(self):
         expected = [Constant(3)]
 
@@ -67,7 +67,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE INT-CONSTANTS-SEPARATED")
+    @test("SMART-LAMBDA PARSE-CONSTANT INT-CONSTANTS-SEPARATED")
     def testParseIntConstantsSeparated(self):
         expected = [Constant(1), Constant(2)]
 
@@ -79,7 +79,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE LIST-CONSTANT")
+    @test("SMART-LAMBDA PARSE-CONSTANT LIST-CONSTANT")
     def testParseListConstant(self):
         expected = [Constant([1, 2])]
 
@@ -91,7 +91,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE LIST-CONSTANTS")
+    @test("SMART-LAMBDA PARSE-CONSTANT LIST-CONSTANTS")
     def testParseListConstants(self):
         expected = [Constant([1, 2]), Constant([3, 4])]
 
@@ -104,7 +104,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE LIST-CONSTANT-LONG")
+    @test("SMART-LAMBDA PARSE-CONSTANT LIST-CONSTANT-LONG")
     def testParseListConstantLong(self):
         expected = [Constant([1, 2, 3])]
 
@@ -116,7 +116,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE LIST-CONSTANTS-LONG")
+    @test("SMART-LAMBDA PARSE-CONSTANT LIST-CONSTANTS-LONG")
     def testParseListConstantsLong(self):
         expected = [Constant([1, 2, 3]), Constant([4, 5, 6])]
 
@@ -129,7 +129,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE TUPLE-CONSTANT")
+    @test("SMART-LAMBDA PARSE-CONSTANT TUPLE-CONSTANT")
     def testParseTupleConstant(self):
         expected = [Constant((1, 2))]
 
@@ -141,7 +141,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE TUPLE-CONSTANT-LONG")
+    @test("SMART-LAMBDA PARSE-CONSTANT TUPLE-CONSTANT-LONG")
     def testParseTupleConstantLong(self):
         expected = [Constant((1, 2, 3))]
 
@@ -153,7 +153,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE TUPLE-CONSTANTS-COMBINED")
+    @test("SMART-LAMBDA PARSE-CONSTANT TUPLE-CONSTANTS-COMBINED")
     def testParseTupleConstantsCombined(self):
         expected = [Constant((1, 2, 3, 4))]
 
@@ -166,7 +166,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE TUPLE-CONSTANTS-SEPARATED")
+    @test("SMART-LAMBDA PARSE-CONSTANT TUPLE-CONSTANTS-SEPARATED")
     def testParseTupleConstantsSeparated(self):
         expected = [Constant((1, 2)), Constant((3, 4))]
 
@@ -178,7 +178,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE SET-CONSTANT")
+    @test("SMART-LAMBDA PARSE-CONSTANT SET-CONSTANT")
     def testParseSetConstant(self):
         expected = [Constant({1, 2})]
 
@@ -190,7 +190,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE SET-CONSTANTS")
+    @test("SMART-LAMBDA PARSE-CONSTANT SET-CONSTANTS")
     def testParseSetConstants(self):
         expected = [Constant({1, 2}), Constant({3, 4})]
 
@@ -202,7 +202,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE SET-CONSTANT-LONG")
+    @test("SMART-LAMBDA PARSE-CONSTANT SET-CONSTANT-LONG")
     def testParseSetConstantLong(self):
         expected = [Constant({1, 2, 3})]
 
@@ -214,7 +214,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE SET-CONSTANTS-LONG")
+    @test("SMART-LAMBDA PARSE-CONSTANT SET-CONSTANTS-LONG")
     def testParseSetConstantsLong(self):
         expected = [Constant({1, 2, 3}), Constant({4, 5, 6})]
 
@@ -226,7 +226,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE DICT-CONSTANT")
+    @test("SMART-LAMBDA PARSE-CONSTANT DICT-CONSTANT")
     def testParseDictConstant(self):
         expected = [Constant({'1': 1, '2': 2})]
 
@@ -238,7 +238,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE DICT-CONSTANTS")
+    @test("SMART-LAMBDA PARSE-CONSTANT DICT-CONSTANTS")
     def testParseDictConstants(self):
         expected = [Constant({'1': 1, '2': 2}), Constant({'3': 3, '4': 4})]
 
@@ -250,7 +250,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE DICT-CONSTANT-LONG")
+    @test("SMART-LAMBDA PARSE-CONSTANT DICT-CONSTANT-LONG")
     def testParseDictConstantLong(self):
         expected = [Constant({'1': 1, '2': 2, '3': 3})]
 
@@ -262,7 +262,7 @@ class TestSmartLambdaParseConstant(unittest.TestCase):
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
                                               f"{expected} != {constants}")
 
-    @test("SMART-LAMBDA PARSE DICT-CONSTANTS-LONG")
+    @test("SMART-LAMBDA PARSE-CONSTANT DICT-CONSTANTS-LONG")
     def testParseDictConstantsLong(self):
         expected = [Constant({'1': 1, '2': 2, '3': 3}), Constant({'4': 4, '5': 5, '6': 6})]
 
