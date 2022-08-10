@@ -32,7 +32,7 @@ class SmartLambda:
 
         # Iterate over all instructions in lambda-function
         for instruction in dis.get_instructions(self.function):
-            # Primitive-Constant (int, str, ...)
+            # Primitive-Constant (int, str, ...) and tuple
             if instruction.opname == 'LOAD_CONST':
                 self.constants.append(instruction.argval)       # Append constant
 
@@ -50,14 +50,20 @@ class SmartLambda:
 
             # Set-Constant (`argval` stores entry-count)
             if instruction.opname == 'BUILD_SET' and instruction.argval > 0:
-                list_constants = self.constants[-instruction.argval:]       # Get last `argval` constants
+                set_constants = self.constants[-instruction.argval:]       # Get last `argval` constants
                 self.constants = self.constants[0:-instruction.argval]      # Remove last `argval` constants
-                self.constants.append(set(list_constants))                  # Append entries as set
+                self.constants.append(set(set_constants))                  # Append entries as set
 
             # Set-Constant (>= 3.9, entries loaded as frozenset for long lists)
             # -> set will be loaded correctly using 'LOAD_CONST'
             if instruction.opname == 'SET_UPDATE':
                 pass
+
+            if instruction.opname == 'BUILD_CONST_KEY_MAP':
+                dict_keys = self.constants[-1:]
+                dict_vals = self.constants[-instruction.argval-1:-1]
+                self.constants = self.constants[0:-instruction.argval-1]
+                self.constants.append({key: val for key, val in zip(*dict_keys, dict_vals)})
 
     def __call__(self, *args, **kwargs) -> T:
         """

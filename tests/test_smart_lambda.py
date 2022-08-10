@@ -179,9 +179,9 @@ class TestSmartLambda(unittest.TestCase):
 
     @test("SMART-LAMBDA PARSE SET-CONSTANTS")
     def testParseSetConstants(self):
-        print(f"\t Validate: (lambda: set.union({{1, 2}}, {{3, 4}})) -> [{{1, 2}}, {{3, 4}}]")
+        print(f"\t Validate: (lambda: {{*{{1, 2}}, *{{3, 4}}}}) -> [{{1, 2}}, {{3, 4}}]")
 
-        s_lambda = SmartLambda(lambda: set.union({1, 2}, {3, 4}))
+        s_lambda = SmartLambda(lambda: {*{1, 2}, *{3, 4}})
         constants = s_lambda.constants
 
         self.assertEqual([{1, 2}, {3, 4}], constants, f"Smart-Lambda parsed constants not matching: "
@@ -199,10 +199,54 @@ class TestSmartLambda(unittest.TestCase):
 
     @test("SMART-LAMBDA PARSE SET-CONSTANTS-LONG")
     def testParseSetConstantsLong(self):
-        print(f"\t Validate: (lambda: set.union({{1, 2, 3}}, {{4, 5, 6}})) -> [{{1, 2, 3}}, {{4, 5, 6}}]")
+        print(f"\t Validate: (lambda: ({{*{{1, 2, 3}}, *{{4, 5, 6}}}})) -> [{{1, 2, 3}}, {{4, 5, 6}}]")
 
-        s_lambda = SmartLambda(lambda: set.union({1, 2, 3}, {4, 5, 6}))
+        s_lambda = SmartLambda(lambda: {*{1, 2, 3}, *{4, 5, 6}})
         constants = s_lambda.constants
 
         self.assertEqual([{1, 2, 3}, {4, 5, 6}], constants, f"Smart-Lambda parsed constants not matching: "
                                                             f"{[{1, 2, 3}, {4, 5, 6}]} != {constants}")
+
+    @test("SMART-LAMBDA PARSE DICT-CONSTANT")
+    def testParseDictConstant(self):
+        print(f"\t Validate: (lambda: ({{'1': 1, '2': 2}}) -> [{{'1': 1, '2': 2}}]")
+
+        s_lambda = SmartLambda(lambda: {'1': 1, '2': 2})
+        constants = s_lambda.constants
+
+        self.assertEqual([{'1': 1, '2': 2}], constants, f"Smart-Lambda parsed constants not matching: "
+                                                        f"{[{'1': 1, '2': 2}]} != {constants}")
+
+    @test("SMART-LAMBDA PARSE DICT-CONSTANTS")
+    def testParseDictConstants(self):
+        print(f"\t Validate: (lambda: ({{**{{'1': 1, '2': 2}}, **{{'3': 3, '4': 4}}}}) -> "
+              f"[{{'1': 1, '2': 2}}, {{'3': 3, '4': 4}}]")
+
+        s_lambda = SmartLambda(lambda: {**{'1': 1, '2': 2}, **{'3': 3, '4': 4}})
+        constants = s_lambda.constants
+
+        self.assertEqual([{'1': 1, '2': 2}, {'3': 3, '4': 4}], constants,
+                         f"Smart-Lambda parsed constants not matching: "
+                         f"{[{'1': 1, '2': 2}, {'3': 3, '4': 4}]} != {constants}")
+
+    @test("SMART-LAMBDA PARSE DICT-CONSTANT-LONG")
+    def testParseDictConstantLong(self):
+        print(f"\t Validate: (lambda: ({{'1': 1, '2': 2, '3': 3}}) -> [{{'1': 1, '2': 2, '3': 3}}]")
+
+        s_lambda = SmartLambda(lambda: {'1': 1, '2': 2, '3': 3})
+        constants = s_lambda.constants
+
+        self.assertEqual([{'1': 1, '2': 2, '3': 3}], constants, f"Smart-Lambda parsed constants not matching: "
+                                                                f"{[{'1': 1, '2': 2, '3': 3}]} != {constants}")
+
+    @test("SMART-LAMBDA PARSE DICT-CONSTANTS-LONG")
+    def testParseDictConstantsLong(self):
+        print(f"\t Validate: (lambda: ({{**{{'1': 1, '2': 2, '3': 3}}, **{{'4': 4, '5': 5, '6': 6}}}}) -> "
+              f"[{{'1': 1, '2': 2, '3': 3}}, {{'4': 4, '5': 5, '6': 6}}]")
+
+        s_lambda = SmartLambda(lambda: {**{'1': 1, '2': 2, '3': 3}, **{'4': 4, '5': 5, '6': 6}})
+        constants = s_lambda.constants
+
+        self.assertEqual([{'1': 1, '2': 2, '3': 3}, {'4': 4, '5': 5, '6': 6}], constants,
+                         f"Smart-Lambda parsed constants not matching: "
+                         f"{[{'1': 1, '2': 2, '3': 3}, {'4': 4, '5': 5, '6': 6}]} != {constants}")
