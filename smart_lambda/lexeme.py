@@ -30,3 +30,29 @@ class Constant:
         :return: True / False
         """
         return self.type == other.type and self.value == other.value
+
+
+class Parameter:
+    """
+    Class for parameter-lexeme.
+    """
+    def __init__(self, name: str):
+        """
+        Initialize parameter based on it's name
+
+        :param name: Name of parameter
+        """
+        self.name: str = name
+
+    def __repr__(self):
+        return self.name
+
+    def __eq__(self, other: Parameter) -> bool:
+        """
+        Compare two parameter for equality
+
+        :param other: Parameter to compare against
+
+        :return: True / False
+        """
+        return self.name == other.name
