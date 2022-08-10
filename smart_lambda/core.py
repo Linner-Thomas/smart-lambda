@@ -104,6 +104,31 @@ class SmartLambda:
                 operands = self.parameter[-2:]
                 self.binary_operations.append(BinaryOperation(BinaryOperations.ADD, operands))
 
+            # Subtraction
+            if instruction.opname == 'BINARY_SUBTRACT':
+                operands = self.parameter[-2:]
+                self.binary_operations.append(BinaryOperation(BinaryOperations.SUB, operands))
+
+            # Multiplication
+            if instruction.opname == 'BINARY_MULTIPLY':
+                operands = self.parameter[-2:]
+                self.binary_operations.append(BinaryOperation(BinaryOperations.MUL, operands))
+
+            # True-Division
+            if instruction.opname == 'BINARY_TRUE_DIVIDE':
+                operands = self.parameter[-2:]
+                self.binary_operations.append(BinaryOperation(BinaryOperations.DIV_TRUE, operands))
+
+            # Floor-Division
+            if instruction.opname == 'BINARY_FLOOR_DIVIDE':
+                operands = self.parameter[-2:]
+                self.binary_operations.append(BinaryOperation(BinaryOperations.DIV_FLOOR, operands))
+
+            # Modulo
+            if instruction.opname == 'BINARY_MODULO':
+                operands = self.parameter[-2:]
+                self.binary_operations.append(BinaryOperation(BinaryOperations.MOD, operands))
+
     def __call__(self, *args, **kwargs) -> T:
         """
         Override call-method to allow the execution of the underlying lambda-function.

@@ -66,6 +66,11 @@ class Parameter(Lexeme):
 
 class BinaryOperations(Enum):
     ADD = '+'
+    SUB = '-'
+    MUL = '*'
+    DIV_TRUE = '/'
+    DIV_FLOOR = '//'
+    MOD = '%'
 
 
 class BinaryOperation(Lexeme):
