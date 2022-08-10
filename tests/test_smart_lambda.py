@@ -1,7 +1,7 @@
 import unittest
 from util import test
 
-from core import SmartLambda
+from smart_lambda.core import SmartLambda
 
 
 class TestSmartLambda(unittest.TestCase):
