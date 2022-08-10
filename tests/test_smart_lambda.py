@@ -119,6 +119,7 @@ class TestSmartLambda(unittest.TestCase):
 
     @test("SMART-LAMBDA PARSE LIST-CONSTANTS-LONG")
     def testParseListConstantsLong(self):
+        # Arithmetic on List-Constants will not be pre-evaluated
         print(f"\t Validate: (lambda: [1, 2, 3] + [4, 5, 6]) -> [[1, 2, 3], [4, 5, 6]]")
 
         s_lambda = SmartLambda(lambda: [1, 2, 3] + [4, 5, 6])
@@ -129,7 +130,6 @@ class TestSmartLambda(unittest.TestCase):
 
     @test("SMART-LAMBDA PARSE TUPLE-CONSTANT")
     def testParseTupleConstant(self):
-        # Arithmetic on List-Constants will not be pre-evaluated
         print(f"\t Validate: (lambda: (1, 2)) -> [(1, 2)]")
 
         s_lambda = SmartLambda(lambda: (1, 2))
@@ -149,7 +149,7 @@ class TestSmartLambda(unittest.TestCase):
 
     @test("SMART-LAMBDA PARSE TUPLE-CONSTANTS-COMBINED")
     def testParseTupleConstantsCombined(self):
-        # Arithmetic on List-Constants will be pre-evaluated
+        # Arithmetic on Tuple-Constants will be pre-evaluated
         print(f"\t Validate: (lambda: (1, 2) + (3, 4)) -> [(1, 2, 3, 4)]")
 
         s_lambda = SmartLambda(lambda: (1, 2) + (3, 4))
