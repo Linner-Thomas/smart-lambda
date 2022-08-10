@@ -25,6 +25,8 @@ class SmartLambda:
         self.__parse_constants()
 
     def __parse_constants(self) -> None:
+        [print(instruction) for instruction in dis.get_instructions(self.function)]
+
         self.constants = \
             [
                 instruction.argval
