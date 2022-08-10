@@ -2,7 +2,7 @@ from typing import Callable, TypeVar
 
 import dis
 
-from smart_lambda.lexeme import Constant
+from smart_lambda.lexeme import Constant, Parameter
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
@@ -22,9 +22,23 @@ class SmartLambda:
         :param function: Lambda-Function
         """
         self.function = function
+        self.parameter = []
         self.constants = []
 
+        self.__parse_parameter()
         self.__parse_constants()
+
+    def __parse_parameter(self) -> None:
+        """
+        Parse all parameter from underlying lambda-function and store internally.
+        """
+        # Iterate over all instructions in lambda-function
+        for instruction in dis.get_instructions(self.function):
+            # Local variable
+            # In case of lambda-functions, there shouldn't be any local variables
+            # These only contain the function-parameter
+            if instruction.opname == 'LOAD_FAST':
+                self.parameter.append(Parameter(instruction.argval))
 
     def __parse_constants(self) -> None:
         """
