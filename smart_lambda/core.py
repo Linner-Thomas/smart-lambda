@@ -48,6 +48,17 @@ class SmartLambda:
                 self.constants = self.constants[0:-1]           # Remove entries
                 self.constants.append(list(*list_constants))    # Append entries as list
 
+            # Set-Constant (`argval` stores entry-count)
+            if instruction.opname == 'BUILD_SET' and instruction.argval > 0:
+                list_constants = self.constants[-instruction.argval:]       # Get last `argval` constants
+                self.constants = self.constants[0:-instruction.argval]      # Remove last `argval` constants
+                self.constants.append(set(list_constants))                  # Append entries as set
+
+            # Set-Constant (>= 3.9, entries loaded as frozenset for long lists)
+            # -> set will be loaded correctly using 'LOAD_CONST'
+            if instruction.opname == 'SET_UPDATE':
+                pass
+
     def __call__(self, *args, **kwargs) -> T:
         """
         Override call-method to allow the execution of the underlying lambda-function.
