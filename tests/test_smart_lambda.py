@@ -35,248 +35,268 @@ class TestSmartLambda(unittest.TestCase):
 
     @test("SMART-LAMBDA PARSE NO-CONSTANT")
     def testParseNoConstant(self):
-        print(f"\t Validate: (lambda x: x) -> []")
+        expected = []
+
+        print(f"\t Validate: (lambda x: x) -> {expected}")
 
         s_lambda = SmartLambda(lambda x: x)
         constants = s_lambda.constants
-        expected = []
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE NONE-CONSTANT")
     def testParseNoneConstant(self):
-        print(f"\t Validate: (lambda: None) -> [None]")
+        expected = [Constant(None)]
+
+        print(f"\t Validate: (lambda: None) -> {expected}")
 
         s_lambda = SmartLambda(lambda: None)
         constants = s_lambda.constants
-        expected = [Constant(None)]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[None]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE INT-CONSTANT")
     def testParseIntConstant(self):
-        print(f"\t Validate: (lambda: 1) -> [1]")
+        expected = [Constant(1)]
+
+        print(f"\t Validate: (lambda: 1) -> {expected}")
 
         s_lambda = SmartLambda(lambda: 1)
         constants = s_lambda.constants
-        expected = [Constant(1)]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[1]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE STR-CONSTANT")
     def testParseStrConstant(self):
-        print(f"\t Validate: (lambda: 'str') -> ['str']")
+        expected = [Constant('str')]
+
+        print(f"\t Validate: (lambda: 'str') -> {expected}")
 
         s_lambda = SmartLambda(lambda: 'str')
         constants = s_lambda.constants
-        expected = [Constant('str')]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{['str']} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE INT-CONSTANTS-COMBINED")
     def testParseIntConstantsCombined(self):
+        expected = [Constant(3)]
+
         # Arithmetic on Int-Constants will be pre-evaluated
-        print(f"\t Validate: (lambda: 1 + 2) -> [3]")
+        print(f"\t Validate: (lambda: 1 + 2) -> {expected}")
 
         s_lambda = SmartLambda(lambda: 1 + 2)
         constants = s_lambda.constants
-        expected = [Constant(3)]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[3]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE INT-CONSTANTS-SEPARATED")
     def testParseIntConstantsSeparated(self):
-        print(f"\t Validate: (lambda x: 1 + 2 * x) -> [1, 2]")
+        expected = [Constant(1), Constant(2)]
+
+        print(f"\t Validate: (lambda x: 1 + 2 * x) -> {expected}")
 
         s_lambda = SmartLambda(lambda x: 1 + 2 * x)
         constants = s_lambda.constants
-        expected = [Constant(1), Constant(2)]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[1, 2]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE LIST-CONSTANT")
     def testParseListConstant(self):
-        print(f"\t Validate: (lambda: [1, 2]) -> [[1, 2]]")
+        expected = [Constant([1, 2])]
+
+        print(f"\t Validate: (lambda: [1, 2]) -> {expected}")
 
         s_lambda = SmartLambda(lambda: [1, 2])
         constants = s_lambda.constants
-        expected = [Constant([1, 2])]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[[1, 2]]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE LIST-CONSTANTS")
     def testParseListConstants(self):
+        expected = [Constant([1, 2]), Constant([3, 4])]
+
         # Arithmetic on List-Constants will not be pre-evaluated
-        print(f"\t Validate: (lambda: [1, 2] + [3, 4]) -> [[1, 2], [3, 4]]")
+        print(f"\t Validate: (lambda: [1, 2] + [3, 4]) -> {expected}")
 
         s_lambda = SmartLambda(lambda: [1, 2] + [3, 4])
         constants = s_lambda.constants
-        expected = [Constant([1, 2]), Constant([3, 4])]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[[1, 2], [3, 4]]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE LIST-CONSTANT-LONG")
     def testParseListConstantLong(self):
-        print(f"\t Validate: (lambda: [1, 2, 3]) -> [[1, 2, 3]]")
+        expected = [Constant([1, 2, 3])]
+
+        print(f"\t Validate: (lambda: [1, 2, 3]) -> {expected}")
 
         s_lambda = SmartLambda(lambda: [1, 2, 3])
         constants = s_lambda.constants
-        expected = [Constant([1, 2, 3])]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[[1, 2, 3]]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE LIST-CONSTANTS-LONG")
     def testParseListConstantsLong(self):
+        expected = [Constant([1, 2, 3]), Constant([4, 5, 6])]
+
         # Arithmetic on List-Constants will not be pre-evaluated
-        print(f"\t Validate: (lambda: [1, 2, 3] + [4, 5, 6]) -> [[1, 2, 3], [4, 5, 6]]")
+        print(f"\t Validate: (lambda: [1, 2, 3] + [4, 5, 6]) -> {expected}")
 
         s_lambda = SmartLambda(lambda: [1, 2, 3] + [4, 5, 6])
         constants = s_lambda.constants
-        expected = [Constant([1, 2, 3]), Constant([4, 5, 6])]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[[1, 2, 3], [4, 5, 6]]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE TUPLE-CONSTANT")
     def testParseTupleConstant(self):
-        print(f"\t Validate: (lambda: (1, 2)) -> [(1, 2)]")
+        expected = [Constant((1, 2))]
+
+        print(f"\t Validate: (lambda: (1, 2)) -> {expected}")
 
         s_lambda = SmartLambda(lambda: (1, 2))
         constants = s_lambda.constants
-        expected = [Constant((1, 2))]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[(1, 2)]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE TUPLE-CONSTANT-LONG")
     def testParseTupleConstantLong(self):
-        print(f"\t Validate: (lambda: (1, 2, 3)) -> [(1, 2, 3)]")
+        expected = [Constant((1, 2, 3))]
+
+        print(f"\t Validate: (lambda: (1, 2, 3)) -> {expected}")
 
         s_lambda = SmartLambda(lambda: (1, 2, 3))
         constants = s_lambda.constants
-        expected = [Constant((1, 2, 3))]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[(1, 2, 3)]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE TUPLE-CONSTANTS-COMBINED")
     def testParseTupleConstantsCombined(self):
+        expected = [Constant((1, 2, 3, 4))]
+
         # Arithmetic on Tuple-Constants will be pre-evaluated
-        print(f"\t Validate: (lambda: (1, 2) + (3, 4)) -> [(1, 2, 3, 4)]")
+        print(f"\t Validate: (lambda: (1, 2) + (3, 4)) -> {expected}")
 
         s_lambda = SmartLambda(lambda: (1, 2) + (3, 4))
         constants = s_lambda.constants
-        expected = [Constant((1, 2, 3, 4))]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[(1, 2, 3, 4)]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE TUPLE-CONSTANTS-SEPARATED")
     def testParseTupleConstantsSeparated(self):
-        print(f"\t Validate: (lambda x: (1, 2) + (3, 4) * x) -> [(1, 2) + (3, 4)]")
+        expected = [Constant((1, 2)), Constant((3, 4))]
+
+        print(f"\t Validate: (lambda x: (1, 2) + (3, 4) * x) -> {expected}")
 
         s_lambda = SmartLambda(lambda x: (1, 2) + (3, 4) * x)
         constants = s_lambda.constants
-        expected = [Constant((1, 2)), Constant((3, 4))]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[(1, 2), (3, 4)]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE SET-CONSTANT")
     def testParseSetConstant(self):
-        print(f"\t Validate: (lambda: {{1, 2}}) -> [{{1, 2}}]")
+        expected = [Constant({1, 2})]
+
+        print(f"\t Validate: (lambda: {{1, 2}}) -> {expected}")
 
         s_lambda = SmartLambda(lambda: {1, 2})
         constants = s_lambda.constants
-        expected = [Constant({1, 2})]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[{1, 2}]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE SET-CONSTANTS")
     def testParseSetConstants(self):
-        print(f"\t Validate: (lambda: {{*{{1, 2}}, *{{3, 4}}}}) -> [{{1, 2}}, {{3, 4}}]")
+        expected = [Constant({1, 2}), Constant({3, 4})]
+
+        print(f"\t Validate: (lambda: {{*{{1, 2}}, *{{3, 4}}}}) -> {expected}")
 
         s_lambda = SmartLambda(lambda: {*{1, 2}, *{3, 4}})
         constants = s_lambda.constants
-        expected = [Constant({1, 2}), Constant({3, 4})]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[{1, 2}, {3, 4}]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE SET-CONSTANT-LONG")
     def testParseSetConstantLong(self):
-        print(f"\t Validate: (lambda: {{1, 2, 3}}) -> [{{1, 2, 3}}]")
+        expected = [Constant({1, 2, 3})]
+
+        print(f"\t Validate: (lambda: {{1, 2, 3}}) -> {expected}")
 
         s_lambda = SmartLambda(lambda: {1, 2, 3})
         constants = s_lambda.constants
-        expected = [Constant({1, 2, 3})]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[{1, 2, 3}]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE SET-CONSTANTS-LONG")
     def testParseSetConstantsLong(self):
-        print(f"\t Validate: (lambda: ({{*{{1, 2, 3}}, *{{4, 5, 6}}}})) -> [{{1, 2, 3}}, {{4, 5, 6}}]")
+        expected = [Constant({1, 2, 3}), Constant({4, 5, 6})]
+
+        print(f"\t Validate: (lambda: {{*{{1, 2, 3}}, *{{4, 5, 6}}}}) -> {expected}")
 
         s_lambda = SmartLambda(lambda: {*{1, 2, 3}, *{4, 5, 6}})
         constants = s_lambda.constants
-        expected = [Constant({1, 2, 3}), Constant({4, 5, 6})]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[{1, 2, 3}, {4, 5, 6}]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE DICT-CONSTANT")
     def testParseDictConstant(self):
-        print(f"\t Validate: (lambda: ({{'1': 1, '2': 2}}) -> [{{'1': 1, '2': 2}}]")
+        expected = [Constant({'1': 1, '2': 2})]
+
+        print(f"\t Validate: (lambda: {{'1': 1, '2': 2}} -> {expected}")
 
         s_lambda = SmartLambda(lambda: {'1': 1, '2': 2})
         constants = s_lambda.constants
-        expected = [Constant({'1': 1, '2': 2})]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[{'1': 1, '2': 2}]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE DICT-CONSTANTS")
     def testParseDictConstants(self):
-        print(f"\t Validate: (lambda: ({{**{{'1': 1, '2': 2}}, **{{'3': 3, '4': 4}}}}) -> "
-              f"[{{'1': 1, '2': 2}}, {{'3': 3, '4': 4}}]")
+        expected = [Constant({'1': 1, '2': 2}), Constant({'3': 3, '4': 4})]
+
+        print(f"\t Validate: (lambda: {{**{{'1': 1, '2': 2}}, **{{'3': 3, '4': 4}}}}) -> {expected}")
 
         s_lambda = SmartLambda(lambda: {**{'1': 1, '2': 2}, **{'3': 3, '4': 4}})
         constants = s_lambda.constants
-        expected = [Constant({'1': 1, '2': 2}), Constant({'3': 3, '4': 4})]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[{'1': 1, '2': 2}, {'3': 3, '4': 4}]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE DICT-CONSTANT-LONG")
     def testParseDictConstantLong(self):
-        print(f"\t Validate: (lambda: ({{'1': 1, '2': 2, '3': 3}}) -> [{{'1': 1, '2': 2, '3': 3}}]")
+        expected = [Constant({'1': 1, '2': 2, '3': 3})]
+
+        print(f"\t Validate: (lambda: {{'1': 1, '2': 2, '3': 3}}) -> {expected}")
 
         s_lambda = SmartLambda(lambda: {'1': 1, '2': 2, '3': 3})
         constants = s_lambda.constants
-        expected = [Constant({'1': 1, '2': 2, '3': 3})]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[{'1': 1, '2': 2, '3': 3}]} != {constants}")
+                                              f"{expected} != {constants}")
 
     @test("SMART-LAMBDA PARSE DICT-CONSTANTS-LONG")
     def testParseDictConstantsLong(self):
-        print(f"\t Validate: (lambda: ({{**{{'1': 1, '2': 2, '3': 3}}, **{{'4': 4, '5': 5, '6': 6}}}}) -> "
-              f"[{{'1': 1, '2': 2, '3': 3}}, {{'4': 4, '5': 5, '6': 6}}]")
+        expected = [Constant({'1': 1, '2': 2, '3': 3}), Constant({'4': 4, '5': 5, '6': 6})]
+
+        print(f"\t Validate: (lambda: {{**{{'1': 1, '2': 2, '3': 3}}, **{{'4': 4, '5': 5, '6': 6}}}}) -> {expected}")
 
         s_lambda = SmartLambda(lambda: {**{'1': 1, '2': 2, '3': 3}, **{'4': 4, '5': 5, '6': 6}})
         constants = s_lambda.constants
-        expected = [Constant({'1': 1, '2': 2, '3': 3}), Constant({'4': 4, '5': 5, '6': 6})]
 
         self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{[{'1': 1, '2': 2, '3': 3}, {'4': 4, '5': 5, '6': 6}]} != {constants}")
+                                              f"{expected} != {constants}")

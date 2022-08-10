@@ -30,8 +30,6 @@ class SmartLambda:
         """
         Parse all constants from underlying lambda-function and store internally.
         """
-        [print(instruction) for instruction in dis.get_instructions(self.function)]
-
         # Iterate over all instructions in lambda-function
         for instruction in dis.get_instructions(self.function):
             # Primitive-Constant (int, str, ...) and tuple
