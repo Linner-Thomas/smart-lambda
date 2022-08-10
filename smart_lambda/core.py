@@ -50,20 +50,23 @@ class SmartLambda:
 
             # Set-Constant (`argval` stores entry-count)
             if instruction.opname == 'BUILD_SET' and instruction.argval > 0:
-                set_constants = self.constants[-instruction.argval:]       # Get last `argval` constants
+                set_constants = self.constants[-instruction.argval:]        # Get last `argval` constants
                 self.constants = self.constants[0:-instruction.argval]      # Remove last `argval` constants
-                self.constants.append(set(set_constants))                  # Append entries as set
+                self.constants.append(set(set_constants))                   # Append entries as set
 
             # Set-Constant (>= 3.9, entries loaded as frozenset for long lists)
             # -> set will be loaded correctly using 'LOAD_CONST'
             if instruction.opname == 'SET_UPDATE':
                 pass
 
+            # Dict-Constant
+            # Values get loaded separate using 'LOAD_CONST'
+            # Keys get loaded as tuple using 'LOAD_CONST'
             if instruction.opname == 'BUILD_CONST_KEY_MAP':
-                dict_keys = self.constants[-1:]
-                dict_vals = self.constants[-instruction.argval-1:-1]
-                self.constants = self.constants[0:-instruction.argval-1]
-                self.constants.append({key: val for key, val in zip(*dict_keys, dict_vals)})
+                dict_keys = self.constants[-1:]                                                 # Get keys
+                dict_vals = self.constants[-instruction.argval-1:-1]                            # Get vals
+                self.constants = self.constants[0:-instruction.argval-1]                        # Remove keys and vals
+                self.constants.append({key: val for key, val in zip(*dict_keys, dict_vals)})    # Append dict
 
     def __call__(self, *args, **kwargs) -> T:
         """
