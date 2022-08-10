@@ -22,9 +22,17 @@ class SmartLambda:
         :param function: Lambda-Function
         """
         self.function = function
+        self.parameter = []
         self.constants = []
 
+        self.__parse_parameter()
         self.__parse_constants()
+
+    def __parse_parameter(self) -> None:
+        """
+        Parse all parameter from underlying lambda-function and store internally.
+        """
+        pass
 
     def __parse_constants(self) -> None:
         """

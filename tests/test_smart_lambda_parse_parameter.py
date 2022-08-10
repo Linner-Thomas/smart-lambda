@@ -12,6 +12,6 @@ class TestSmartLambdaParseParameter(unittest.TestCase):
         print(f"\t Validate: (lambda: 1) -> {expected}")
 
         s_lambda = SmartLambda(lambda: 1)
-        parameter = []
+        parameter = s_lambda.parameter
 
         self.assertEqual(expected, parameter, f"Smart-Lambda parameter not matching: {expected} != {parameter}")
