@@ -71,3 +71,58 @@ class TestSmartLambdaBinaryOperation(unittest.TestCase):
         operations = s_lambda.binary_operations
 
         self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION AND_PARAMETER")
+    def testParseAndParameter(self):
+        expected = [BinaryOperation(BinaryOperations.AND, [Parameter('x'), Parameter('y')])]
+
+        print(f"\t Validate: (lambda x, y: x & y) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x, y: x & y)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION OR_PARAMETER")
+    def testParseOrParameter(self):
+        expected = [BinaryOperation(BinaryOperations.OR, [Parameter('x'), Parameter('y')])]
+
+        print(f"\t Validate: (lambda x, y: x | y) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x, y: x | y)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION XOR_PARAMETER")
+    def testParseOrParameter(self):
+        expected = [BinaryOperation(BinaryOperations.XOR, [Parameter('x'), Parameter('y')])]
+
+        print(f"\t Validate: (lambda x, y: x ^ y) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x, y: x ^ y)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION SHIFT_LEFT_PARAMETER")
+    def testParseShiftLeftParameter(self):
+        expected = [BinaryOperation(BinaryOperations.SHIFT_L, [Parameter('x'), Parameter('y')])]
+
+        print(f"\t Validate: (lambda x, y: x << y) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x, y: x << y)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION SHIFT_RIGHT_PARAMETER")
+    def testParseShiftRightParameter(self):
+        expected = [BinaryOperation(BinaryOperations.SHIFT_R, [Parameter('x'), Parameter('y')])]
+
+        print(f"\t Validate: (lambda x, y: x >> y) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x, y: x >> y)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")

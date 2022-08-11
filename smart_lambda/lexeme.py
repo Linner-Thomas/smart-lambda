@@ -71,6 +71,11 @@ class BinaryOperations(Enum):
     DIV_TRUE = '/'
     DIV_FLOOR = '//'
     MOD = '%'
+    AND = '&'
+    OR = '|'
+    XOR = '^'
+    SHIFT_L = '<<'
+    SHIFT_R = '>>'
 
 
 class BinaryOperation(Lexeme):

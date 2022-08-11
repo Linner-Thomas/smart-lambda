@@ -18,7 +18,12 @@ class ParserBinaryOperation(ParserLexeme):
             'BINARY_MULTIPLY': BinaryOperations.MUL,
             'BINARY_TRUE_DIVIDE': BinaryOperations.DIV_TRUE,
             'BINARY_FLOOR_DIVIDE': BinaryOperations.DIV_FLOOR,
-            'BINARY_MODULO': BinaryOperations.MOD
+            'BINARY_MODULO': BinaryOperations.MOD,
+            'BINARY_AND': BinaryOperations.AND,
+            'BINARY_OR': BinaryOperations.OR,
+            'BINARY_XOR': BinaryOperations.XOR,
+            'BINARY_LSHIFT': BinaryOperations.SHIFT_L,
+            'BINARY_RSHIFT': BinaryOperations.SHIFT_R
         }
 
     @classmethod
