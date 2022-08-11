@@ -213,3 +213,18 @@ class TestSmartLambdaBinaryOperation(unittest.TestCase):
         operations = s_lambda.binary_operations
 
         self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION COMPLEX-6")
+    def testParseComplex6(self):
+        operation_l = BinaryOperation(BinaryOperations.MUL, [Parameter('x'), Parameter('y')])
+        operation_r = BinaryOperation(BinaryOperations.MUL, [Parameter('x'), Parameter('z')])
+        operation_add = BinaryOperation(BinaryOperations.ADD, [operation_l, operation_r])
+
+        expected = [operation_l, operation_r, operation_add]
+
+        print(f"\t Validate: (lambda x, y, z: x * y + x * z) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x, y, z: x * y + x * z)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
