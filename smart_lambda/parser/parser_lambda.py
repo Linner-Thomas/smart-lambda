@@ -4,6 +4,7 @@ from typing import Callable, List, TypeVar, Union
 from smart_lambda.lexeme import Lexeme
 from smart_lambda.parser.parser_lexeme import ParserLexeme
 from smart_lambda.parser.parser_parameter import ParserParameter
+from smart_lambda.parser.parser_constant import ParserConstant
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
@@ -15,7 +16,8 @@ class ParserLambda:
     """
     available_parser: List[ParserLexeme] =\
         [
-            ParserParameter
+            ParserParameter,
+            ParserConstant
         ]
 
     def __init__(self, function: Callable[..., T]):
@@ -38,7 +40,10 @@ class ParserLambda:
             parser = self.get_parser(instruction)
 
             if parser is not None:
-                lexemes.append(parser.parse(instruction))
+                lexeme = parser.parse(lexemes, instruction)
+
+                if lexeme is not None:
+                    lexemes.append(lexeme)
 
         return lexemes
 

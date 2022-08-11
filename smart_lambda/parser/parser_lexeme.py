@@ -1,3 +1,5 @@
+from typing import List, Union
+
 from dis import Instruction
 
 from smart_lambda.lexeme import Lexeme
@@ -11,11 +13,14 @@ class ParserLexeme:
     instructions = []
 
     @classmethod
-    def parse(cls, instruction: Instruction) -> Lexeme:
+    def parse(cls, lexemes: List[Lexeme], instruction: Instruction) -> Union[Lexeme, None]:
         """
         Parses the given instruction and returns a corresponding lexeme.
+        Might return None in special cases.
+
         This method has to be overridden by each lexeme-parser.
 
+        :param lexemes: List of already parsed lexemes
         :param instruction: Instruction to parse
 
         :return: Lexeme
