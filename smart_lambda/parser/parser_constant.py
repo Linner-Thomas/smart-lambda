@@ -31,6 +31,8 @@ class ParserConstant(ParserLexeme):
 
         :return: Constant
         """
+        super().parse(lexemes, instruction)
+
         # Primitive-Constant (int, str, ...) and tuple
         if instruction.opname == 'LOAD_CONST':
             if isinstance(instruction.argval, frozenset):

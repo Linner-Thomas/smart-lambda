@@ -27,4 +27,6 @@ class ParserParameter(ParserLexeme):
 
         :return: Parameter
         """
+        super().parse(lexemes, instruction)
+
         return Parameter(instruction.argval)
