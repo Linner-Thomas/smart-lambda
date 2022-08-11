@@ -12,11 +12,13 @@ setup(
     packages=
     [
         'smart_lambda',
+        'smart_lambda.parser',
     ],
 
     package_dir=
     {
         'smart_lambda': 'smart_lambda',
+        'smart_lambda.parser': 'smart_lambda/parser',
     },
 
     author="Thomas Linner",
