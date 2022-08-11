@@ -95,7 +95,7 @@ class TestSmartLambdaBinaryOperation(unittest.TestCase):
         self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
 
     @test("SMART-LAMBDA PARSE-BINARY-OPERATION XOR_PARAMETER")
-    def testParseOrParameter(self):
+    def testParseXorParameter(self):
         expected = [BinaryOperation(BinaryOperations.XOR, [Parameter('x'), Parameter('y')])]
 
         print(f"\t Validate: (lambda x, y: x ^ y) -> {expected}")
