@@ -99,7 +99,7 @@ class BinaryOperation(Lexeme):
         self.operands: List[Lexeme] = operands
 
     def __repr__(self):
-        return f"{self.operands[0]} {self.operation.value} {self.operands[1]}"
+        return f"Operation({self.operands[0]} {self.operation.value} {self.operands[1]})"
 
     def __eq__(self, other: BinaryOperation) -> bool:
         """
