@@ -32,7 +32,6 @@ class SmartLambda:
 
         self.__parse()
 
-        self.__parse_parameter()
         self.__parse_constants()
         self.__parse_binary_operations()
 
@@ -40,19 +39,13 @@ class SmartLambda:
         """
         TODO
         """
+        # Parse lambda-function and return lexemes
         self.lexemes = self.parser.parse()
 
-    def __parse_parameter(self) -> None:
-        """
-        Parse all parameter from underlying lambda-function and store internally.
-        """
-        # Iterate over all instructions in lambda-function
-        for instruction in dis.get_instructions(self.function):
-            # Local variable
-            # In case of lambda-functions, there shouldn't be any local variables
-            # These only contain the function-parameter
-            if instruction.opname == 'LOAD_FAST':
-                self.parameter.append(Parameter(instruction.argval))
+        # Split lexemes into "type" for better accessibility
+        for lexeme in self.lexemes:
+            if isinstance(lexeme, Parameter):
+                self.parameter.append(lexeme)
 
     def __parse_constants(self) -> None:
         """
