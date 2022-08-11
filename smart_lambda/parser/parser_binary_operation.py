@@ -32,4 +32,6 @@ class ParserBinaryOperation(ParserLexeme):
 
         :return: Binary-Operation
         """
+        super().parse(lexemes, instruction)
+
         return BinaryOperation(cls.instructions[instruction.opname], lexemes[-2:])
