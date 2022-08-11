@@ -40,7 +40,7 @@ class TestSmartLambdaParseParameter(unittest.TestCase):
         self.assertEqual(expected, parameter, f"Smart-Lambda parameter not matching: {expected} != {parameter}")
 
     @test("SMART-LAMBDA PARSE-PARAMETER UNUSED-PARAMETER")
-    def testParseTwoParameter(self):
+    def testParseUnusedParameter(self):
         # Unused parameter aren't loaded
         expected = [Parameter('x')]
 
