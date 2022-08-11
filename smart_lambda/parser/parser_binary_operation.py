@@ -39,4 +39,32 @@ class ParserBinaryOperation(ParserLexeme):
         """
         super().parse(lexemes, instruction)
 
-        return BinaryOperation(cls.instructions[instruction.opname], lexemes[-2:])
+        return BinaryOperation(cls.instructions[instruction.opname], cls.get_operands(lexemes))
+
+    @classmethod
+    def get_operands(cls, lexemes: List[Lexeme]) -> List[Lexeme]:
+        """
+        Get the two operands for the binary-operation based on the already parsed lexemes
+
+        :param lexemes: List of already parsed lexemes
+
+        :return: List of operands
+        """
+        operands = []
+
+        # Iterate lexemes in reversed order
+        lexemes_iter = iter(lexemes[::-1])
+        for lexeme in lexemes_iter:
+            operands.append(lexeme)
+
+            # If lexeme was binary operation, skip next two lexemes (operands of operation)
+            if isinstance(lexeme, BinaryOperation):
+                next(lexemes_iter)
+                next(lexemes_iter)
+
+            # Break when 2 operands where found
+            if len(operands) == 2:
+                break
+
+        # Fix order of operands and return
+        return operands[::-1]
