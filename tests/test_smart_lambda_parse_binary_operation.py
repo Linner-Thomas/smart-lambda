@@ -127,9 +127,6 @@ class TestSmartLambdaBinaryOperation(unittest.TestCase):
 
         self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
 
-    # The following test-cases are only executed for one parameter
-    # These are designed to test different combinations of operands (parameter and constant)
-
     @test("SMART-LAMBDA PARSE-BINARY-OPERATION MIX-PARAM-CONST")
     def testParseMixParamConst(self):
         expected = [BinaryOperation(BinaryOperations.ADD, [Parameter('x'), Constant(1)])]
@@ -148,6 +145,73 @@ class TestSmartLambdaBinaryOperation(unittest.TestCase):
         print(f"\t Validate: (lambda x: 1 + x) -> {expected}")
 
         s_lambda = SmartLambda(lambda x: 1 + x)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION COMPLEX-1")
+    def testParseComplex1(self):
+        operation_inner = BinaryOperation(BinaryOperations.ADD, [Parameter('x'), Parameter('y')])
+        operation_outer = BinaryOperation(BinaryOperations.ADD, [operation_inner, Parameter('z')])
+        expected = [operation_inner, operation_outer]
+
+        print(f"\t Validate: (lambda x, y, z: x + y + z) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x, y, z: x + y + z)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION COMPLEX-2")
+    def testParseComplex2(self):
+        operation_inner = BinaryOperation(BinaryOperations.MUL, [Parameter('x'), Parameter('y')])
+        operation_outer = BinaryOperation(BinaryOperations.ADD, [operation_inner, Parameter('z')])
+        expected = [operation_inner, operation_outer]
+
+        print(f"\t Validate: (lambda x, y, z: x * y + z) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x, y, z: x * y + z)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @unittest.skip
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION COMPLEX-3")
+    def testParseComplex3(self):
+        operation_inner = BinaryOperation(BinaryOperations.MUL, [Parameter('y'), Parameter('z')])
+        operation_outer = BinaryOperation(BinaryOperations.ADD, [Parameter('x'), operation_inner])
+        expected = [operation_inner, operation_outer]
+
+        print(f"\t Validate: (lambda x, y, z: x + y * z) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x, y, z: x + y * z)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION COMPLEX-4")
+    def testParseComplex4(self):
+        operation_inner = BinaryOperation(BinaryOperations.ADD, [Parameter('x'), Parameter('y')])
+        operation_outer = BinaryOperation(BinaryOperations.MUL, [operation_inner, Parameter('z')])
+        expected = [operation_inner, operation_outer]
+
+        print(f"\t Validate: (lambda x, y, z: (x + y) * z) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x, y, z: (x + y) * z)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @unittest.skip
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION COMPLEX-5")
+    def testParseComplex5(self):
+        operation_inner = BinaryOperation(BinaryOperations.ADD, [Parameter('y'), Parameter('z')])
+        operation_outer = BinaryOperation(BinaryOperations.MUL, [Parameter('x'), operation_inner])
+        expected = [operation_inner, operation_outer]
+
+        print(f"\t Validate: (lambda x, y, z: x * (y + z)) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x, y, z: x * (y + z))
         operations = s_lambda.binary_operations
 
         self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")

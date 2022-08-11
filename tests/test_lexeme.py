@@ -105,7 +105,7 @@ class TestLexeme(unittest.TestCase):
 
     @test("LEXEME BINARY-OPERATION REPR-CONST-PARAM")
     def testBinaryOperationReprConstParam(self):
-        expected = f"Constant(1) + Parameter(x)"
+        expected = f"Operation(Constant(1) + Parameter(x))"
 
         print(f"\t Validate: BinaryOperation(BinaryOperations.ADD, [Constant(1), Parameter('x')]) -> {expected}")
 
@@ -116,7 +116,7 @@ class TestLexeme(unittest.TestCase):
 
     @test("LEXEME BINARY-OPERATION REPR-PARAM-CONST")
     def testBinaryOperationReprParamConst(self):
-        expected = f"Parameter(x) + Constant(1)"
+        expected = f"Operation(Parameter(x) + Constant(1))"
 
         print(f"\t Validate: BinaryOperation(BinaryOperations.ADD, [Parameter('x'), Constant(1)]) -> {expected}")
 
