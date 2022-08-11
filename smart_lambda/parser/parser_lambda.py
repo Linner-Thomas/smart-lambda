@@ -1,6 +1,8 @@
-from typing import Callable, List, TypeVar
+from dis import Instruction, get_instructions
+from typing import Callable, List, TypeVar, Union
 
 from smart_lambda.lexeme import Lexeme
+from smart_lambda.parser.parser_lexeme import ParserLexeme
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
@@ -24,4 +26,24 @@ class ParserLambda:
 
         :return: List of lexemes
         """
-        return []
+        lexemes = []
+
+        for instruction in get_instructions(self.function):
+            parser = self.get_parser(instruction)
+
+            if parser is not None:
+                lexemes.append(parser.parse(instruction))
+
+        return lexemes
+
+    def get_parser(self, instruction: Instruction) -> Union[ParserLexeme, None]:
+        """
+        Returns the responsible lexeme-parser for a given instruction.
+        Might return None if no parser was found.
+
+        :param instruction: Instruction to get parser for
+
+        :return: Lexeme-Parser for instruction or None
+        """
+        # TODO Get parser for instruction
+        return None
