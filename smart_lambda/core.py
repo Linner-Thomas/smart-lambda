@@ -2,6 +2,7 @@ from typing import Callable, TypeVar
 
 import dis
 
+from smart_lambda.parser.parser_lambda import ParserLambda
 from smart_lambda.lexeme import BinaryOperation, BinaryOperations, Constant, Parameter
 
 # Define type-variable for lambda return-type
@@ -22,13 +23,24 @@ class SmartLambda:
         :param function: Lambda-Function
         """
         self.function = function
+        self.parser = ParserLambda(function)
+
+        self.lexemes = []
         self.parameter = []
         self.constants = []
         self.binary_operations = []
 
+        self.__parse()
+
         self.__parse_parameter()
         self.__parse_constants()
         self.__parse_binary_operations()
+
+    def __parse(self) -> None:
+        """
+        TODO
+        """
+        self.lexemes = self.parser.parse()
 
     def __parse_parameter(self) -> None:
         """
