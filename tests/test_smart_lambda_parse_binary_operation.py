@@ -2,7 +2,7 @@ import unittest
 from util import test
 
 from smart_lambda.core import SmartLambda
-from smart_lambda.lexeme import BinaryOperation, BinaryOperations, Parameter
+from smart_lambda.lexeme import BinaryOperation, BinaryOperations, Constant, Parameter
 
 
 class TestSmartLambdaBinaryOperation(unittest.TestCase):
@@ -123,6 +123,31 @@ class TestSmartLambdaBinaryOperation(unittest.TestCase):
         print(f"\t Validate: (lambda x, y: x >> y) -> {expected}")
 
         s_lambda = SmartLambda(lambda x, y: x >> y)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    # The following test-cases are only executed for one parameter
+    # These are designed to test different combinations of operands (parameter and constant)
+
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION MIX-PARAM-CONST")
+    def testParseMixParamConst(self):
+        expected = [BinaryOperation(BinaryOperations.ADD, [Parameter('x'), Constant(1)])]
+
+        print(f"\t Validate: (lambda x: x + 1) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x: x + 1)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION MIX-CONST-PARAM")
+    def testParseMixConstParam(self):
+        expected = [BinaryOperation(BinaryOperations.ADD, [Constant(1), Parameter('x')])]
+
+        print(f"\t Validate: (lambda x: 1 + x) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x: 1 + x)
         operations = s_lambda.binary_operations
 
         self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")

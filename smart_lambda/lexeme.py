@@ -25,7 +25,7 @@ class Constant(Lexeme):
         self.type: type = type(value)
 
     def __repr__(self) -> str:
-        return str(self.value)
+        return f"Constant({self.value})"
 
     def __eq__(self, other: Constant) -> bool:
         """
@@ -35,6 +35,9 @@ class Constant(Lexeme):
 
         :return: True / False
         """
+        if not isinstance(other, Constant):
+            return False
+
         return self.type == other.type and self.value == other.value
 
 
@@ -51,7 +54,7 @@ class Parameter(Lexeme):
         self.name: str = name
 
     def __repr__(self):
-        return self.name
+        return f"Parameter({self.name})"
 
     def __eq__(self, other: Parameter) -> bool:
         """
@@ -61,6 +64,9 @@ class Parameter(Lexeme):
 
         :return: True / False
         """
+        if not isinstance(other, Parameter):
+            return False
+
         return self.name == other.name
 
 
@@ -103,4 +109,7 @@ class BinaryOperation(Lexeme):
 
         :return: True / False
         """
+        if not isinstance(other, BinaryOperation):
+            return False
+
         return self.operation == other.operation and self.operands == other.operands
