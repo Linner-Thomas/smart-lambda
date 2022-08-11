@@ -3,6 +3,7 @@ from typing import Callable, List, TypeVar, Union
 
 from smart_lambda.lexeme import Lexeme
 from smart_lambda.parser.parser_lexeme import ParserLexeme
+from smart_lambda.parser.parser_parameter import ParserParameter
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
@@ -12,6 +13,11 @@ class ParserLambda:
     """
     TODO
     """
+    available_parser: List[ParserLexeme] =\
+        [
+            ParserParameter
+        ]
+
     def __init__(self, function: Callable[..., T]):
         """
         Initialize new lambda-parser based on given lambda-function.
@@ -45,5 +51,8 @@ class ParserLambda:
 
         :return: Lexeme-Parser for instruction or None
         """
-        # TODO Get parser for instruction
+        for parser in self.available_parser:
+            if parser.is_valid_instruction(instruction):
+                return parser
+
         return None
