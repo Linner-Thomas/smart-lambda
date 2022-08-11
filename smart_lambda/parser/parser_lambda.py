@@ -5,6 +5,7 @@ from smart_lambda.lexeme import Lexeme
 from smart_lambda.parser.parser_lexeme import ParserLexeme
 from smart_lambda.parser.parser_parameter import ParserParameter
 from smart_lambda.parser.parser_constant import ParserConstant
+from smart_lambda.parser.parser_binary_operation import ParserBinaryOperation
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
@@ -17,7 +18,8 @@ class ParserLambda:
     available_parser: List[ParserLexeme] =\
         [
             ParserParameter,
-            ParserConstant
+            ParserConstant,
+            ParserBinaryOperation
         ]
 
     def __init__(self, function: Callable[..., T]):

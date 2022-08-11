@@ -1,9 +1,7 @@
 from typing import Callable, TypeVar
 
-import dis
-
 from smart_lambda.parser.parser_lambda import ParserLambda
-from smart_lambda.lexeme import BinaryOperation, BinaryOperations, Constant, Parameter
+from smart_lambda.lexeme import Parameter, Constant, BinaryOperation
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
@@ -32,8 +30,6 @@ class SmartLambda:
 
         self.__parse()
 
-        self.__parse_binary_operations()
-
     def __parse(self) -> None:
         """
         TODO
@@ -49,46 +45,8 @@ class SmartLambda:
             if isinstance(lexeme, Constant):
                 self.constants.append(lexeme)
 
-    def __parse_binary_operations(self) -> None:
-        """
-        Parse all binary-operations from underlying lambda-function and store internally.
-        """
-        [print(instruction) for instruction in dis.get_instructions(self.function)]
-        # TODO: Currently only works for parameter!
-        # This will probably require a rework of the whole parser system, because we need the last two operands,
-        # which can be a mixture of constants and parameter ...
-
-        # Iterate over all instructions in lambda-function
-        for instruction in dis.get_instructions(self.function):
-            # Addition
-            if instruction.opname == 'BINARY_ADD':
-                operands = self.parameter[-2:]
-                self.binary_operations.append(BinaryOperation(BinaryOperations.ADD, operands))
-
-            # Subtraction
-            if instruction.opname == 'BINARY_SUBTRACT':
-                operands = self.parameter[-2:]
-                self.binary_operations.append(BinaryOperation(BinaryOperations.SUB, operands))
-
-            # Multiplication
-            if instruction.opname == 'BINARY_MULTIPLY':
-                operands = self.parameter[-2:]
-                self.binary_operations.append(BinaryOperation(BinaryOperations.MUL, operands))
-
-            # True-Division
-            if instruction.opname == 'BINARY_TRUE_DIVIDE':
-                operands = self.parameter[-2:]
-                self.binary_operations.append(BinaryOperation(BinaryOperations.DIV_TRUE, operands))
-
-            # Floor-Division
-            if instruction.opname == 'BINARY_FLOOR_DIVIDE':
-                operands = self.parameter[-2:]
-                self.binary_operations.append(BinaryOperation(BinaryOperations.DIV_FLOOR, operands))
-
-            # Modulo
-            if instruction.opname == 'BINARY_MODULO':
-                operands = self.parameter[-2:]
-                self.binary_operations.append(BinaryOperation(BinaryOperations.MOD, operands))
+            if isinstance(lexeme, BinaryOperation):
+                self.binary_operations.append(lexeme)
 
     def __call__(self, *args, **kwargs) -> T:
         """
