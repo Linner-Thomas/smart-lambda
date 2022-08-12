@@ -2,6 +2,7 @@ from typing import List, TypeVar, Union
 
 from smart_lambda.lexeme import Lexeme
 from smart_lambda.interpreter.interpreter_lexeme import InterpreterLexeme
+from smart_lambda.interpreter.interpreter_constant import InterpreterConstant
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
@@ -13,7 +14,7 @@ class InterpreterLambda:
     """
     available_interpreter: List[InterpreterLexeme] =\
         [
-
+            InterpreterConstant
         ]
 
     def __init__(self, lexemes: List[Lexeme]):
