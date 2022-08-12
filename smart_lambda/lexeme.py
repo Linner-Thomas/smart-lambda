@@ -113,3 +113,40 @@ class BinaryOperation(Lexeme):
             return False
 
         return self.operation == other.operation and self.operands == other.operands
+
+
+class UnaryOperations(Enum):
+    POS = '+'
+    NEG = '-'
+    INV = '~'
+
+
+class UnaryOperation(Lexeme):
+    """
+    Class for unary-operation lexeme (e. g. NOT, ...).
+    """
+    def __init__(self, operation: UnaryOperations, operand: Lexeme):
+        """
+        Initialize unary-operation based on its operation and operand
+
+        :param operation: Operation (e. g. NOT)
+        :param operand: Operand (Constant, Parameter)
+        """
+        self.operation: UnaryOperations = operation
+        self.operand: Lexeme = operand
+
+    def __repr__(self):
+        return f"Operation({self.operation.value}{self.operand})"
+
+    def __eq__(self, other: UnaryOperation) -> bool:
+        """
+        Compare two unary-operations for equality
+
+        :param other: Unary-Operation to compare against
+
+        :return: True / False
+        """
+        if not isinstance(other, UnaryOperation):
+            return False
+
+        return self.operation == other.operation and self.operand == other.operand

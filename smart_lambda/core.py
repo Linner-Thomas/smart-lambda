@@ -1,7 +1,7 @@
 from typing import Callable, TypeVar
 
 from smart_lambda.parser.parser_lambda import ParserLambda
-from smart_lambda.lexeme import Parameter, Constant, BinaryOperation
+from smart_lambda.lexeme import Parameter, Constant, BinaryOperation, UnaryOperation
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
@@ -27,6 +27,7 @@ class SmartLambda:
         self.parameter = []
         self.constants = []
         self.binary_operations = []
+        self.unary_operations = []
 
         self.__parse()
 
@@ -47,6 +48,9 @@ class SmartLambda:
 
             if isinstance(lexeme, BinaryOperation):
                 self.binary_operations.append(lexeme)
+
+            if isinstance(lexeme, UnaryOperation):
+                self.unary_operations.append(lexeme)
 
     def __call__(self, *args, **kwargs) -> T:
         """

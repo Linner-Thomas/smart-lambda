@@ -6,6 +6,7 @@ from smart_lambda.parser.parser_lexeme import ParserLexeme
 from smart_lambda.parser.parser_parameter import ParserParameter
 from smart_lambda.parser.parser_constant import ParserConstant
 from smart_lambda.parser.parser_binary_operation import ParserBinaryOperation
+from smart_lambda.parser.parser_unary_operation import ParserUnaryOperation
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
@@ -19,7 +20,8 @@ class ParserLambda:
         [
             ParserParameter,
             ParserConstant,
-            ParserBinaryOperation
+            ParserBinaryOperation,
+            ParserUnaryOperation
         ]
 
     def __init__(self, function: Callable[..., T]):
@@ -39,6 +41,7 @@ class ParserLambda:
         lexemes = []
 
         for instruction in get_instructions(self.function):
+            print(instruction)
             parser = self.get_parser(instruction)
 
             if parser is not None:
