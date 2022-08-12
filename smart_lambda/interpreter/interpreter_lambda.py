@@ -5,6 +5,7 @@ from smart_lambda.interpreter.interpreter_lexeme import InterpreterLexeme
 from smart_lambda.interpreter.interpreter_constant import InterpreterConstant
 from smart_lambda.interpreter.interpreter_parameter import InterpreterParameter
 from smart_lambda.interpreter.interpreter_unary_operation import InterpreterUnaryOperation
+from smart_lambda.interpreter.interpreter_binary_operation import InterpreterBinaryOperation
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
@@ -18,7 +19,8 @@ class InterpreterLambda:
         [
             InterpreterConstant,
             InterpreterParameter,
-            InterpreterUnaryOperation
+            InterpreterUnaryOperation,
+            InterpreterBinaryOperation
         ]
 
     def __init__(self, lexemes: List[Lexeme]):

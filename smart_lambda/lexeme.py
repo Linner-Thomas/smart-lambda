@@ -71,17 +71,20 @@ class Parameter(Lexeme):
 
 
 class BinaryOperations(Enum):
-    ADD = '+'
-    SUB = '-'
-    MUL = '*'
-    DIV_TRUE = '/'
-    DIV_FLOOR = '//'
-    MOD = '%'
-    AND = '&'
-    OR = '|'
-    XOR = '^'
-    SHIFT_L = '<<'
-    SHIFT_R = '>>'
+    ADD = ('+', lambda op1, op2: op1 + op2)
+    SUB = ('-', lambda op1, op2: op1 - op2)
+    MUL = ('*', lambda op1, op2: op1 * op2)
+    DIV_TRUE = ('/', lambda op1, op2: op1 / op2)
+    DIV_FLOOR = ('//', lambda op1, op2: op1 // op2)
+    MOD = ('%', lambda op1, op2: op1 % op2)
+    AND = ('&', lambda op1, op2: op1 & op2)
+    OR = ('|', lambda op1, op2: op1 | op2)
+    XOR = ('^', lambda op1, op2: op1 ^ op2)
+    SHIFT_L = ('<<', lambda op1, op2: op1 << op2)
+    SHIFT_R = ('>>', lambda op1, op2: op1 >> op2)
+
+    def __getitem__(self, item):
+        return self[item]
 
 
 class BinaryOperation(Lexeme):
@@ -98,8 +101,11 @@ class BinaryOperation(Lexeme):
         self.operation: BinaryOperations = operation
         self.operands: List[Lexeme] = operands
 
+    def apply(self, operand_1, operand_2):
+        return self.operation.value[1](operand_1, operand_2)
+
     def __repr__(self):
-        return f"Operation({self.operands[0]} {self.operation.value} {self.operands[1]})"
+        return f"Operation({self.operands[0]} {self.operation.value[0]} {self.operands[1]})"
 
     def __eq__(self, other: BinaryOperation) -> bool:
         """
@@ -138,8 +144,8 @@ class UnaryOperation(Lexeme):
         self.operation: UnaryOperations = operation
         self.operand: Lexeme = operand
 
-    def apply(self, value):
-        return self.operation.value[1](value)
+    def apply(self, operand):
+        return self.operation.value[1](operand)
 
     def __repr__(self):
         return f"Operation({self.operation.value[0]}{self.operand})"
