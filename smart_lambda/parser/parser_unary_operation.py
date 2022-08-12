@@ -13,7 +13,7 @@ class ParserUnaryOperation(ParserLexeme):
     # List of valid instructions for the unary-parameter-parser
     instructions = \
         {
-
+            'UNARY_POSITIVE': UnaryOperations.POS
         }
 
     @classmethod
