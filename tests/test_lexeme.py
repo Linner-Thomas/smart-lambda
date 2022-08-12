@@ -159,9 +159,9 @@ class TestLexeme(unittest.TestCase):
     def testUnaryOperationReprConst(self):
         expected = f"Operation(~Constant(1))"
 
-        print(f"\t Validate: UnaryOperation(UnaryOperations.NEG, Constant(1)) -> {expected}")
+        print(f"\t Validate: UnaryOperation(UnaryOperations.INV, Constant(1)) -> {expected}")
 
-        operation = UnaryOperation(UnaryOperations.NOT, Constant(1))
+        operation = UnaryOperation(UnaryOperations.INV, Constant(1))
 
         self.assertEqual(expected, repr(operation),
                          f"Unary-Operation-Lexeme representation not matching: {expected} != {repr(operation)}")
@@ -170,9 +170,9 @@ class TestLexeme(unittest.TestCase):
     def testUnaryOperationReprParam(self):
         expected = f"Operation(~Parameter(x))"
 
-        print(f"\t Validate: UnaryOperation(UnaryOperations.NEG, Parameter('x')) -> {expected}")
+        print(f"\t Validate: UnaryOperation(UnaryOperations.INV, Parameter('x')) -> {expected}")
 
-        operation = UnaryOperation(UnaryOperations.NOT, Parameter('x'))
+        operation = UnaryOperation(UnaryOperations.INV, Parameter('x'))
 
         self.assertEqual(expected, repr(operation),
                          f"Unary-Operation-Lexeme representation not matching: {expected} != {repr(operation)}")
@@ -181,8 +181,8 @@ class TestLexeme(unittest.TestCase):
     def testUnaryOperationEqTrue(self):
         print(f"\t Validate: ~Parameter(x) == ~Parameter(x) -> {True}")
 
-        result = UnaryOperation(UnaryOperations.NOT, Parameter('x')) == \
-                 UnaryOperation(UnaryOperations.NOT, Parameter('x'))
+        result = UnaryOperation(UnaryOperations.INV, Parameter('x')) == \
+                 UnaryOperation(UnaryOperations.INV, Parameter('x'))
 
         self.assertEqual(True, result,
                          f"Unary-Operation-Lexeme equality not matching: {True} != {result}")
@@ -191,7 +191,7 @@ class TestLexeme(unittest.TestCase):
     def testUnaryOperationEqFalseOperation(self):
         print(f"\t Validate: ~Parameter(x) == -Parameter(x) -> {False}")
 
-        result = UnaryOperation(UnaryOperations.NOT, Parameter('x')) == \
+        result = UnaryOperation(UnaryOperations.INV, Parameter('x')) == \
                  UnaryOperation(UnaryOperations.NEG, Parameter('x'))
 
         self.assertEqual(False, result,
@@ -201,8 +201,8 @@ class TestLexeme(unittest.TestCase):
     def testUnaryOperationEqFalseOperand(self):
         print(f"\t Validate: ~Parameter(x) == ~Parameter(y) -> {False}")
 
-        result = UnaryOperation(UnaryOperations.NOT, Parameter('x')) == \
-                 UnaryOperation(UnaryOperations.NOT, Parameter('y'))
+        result = UnaryOperation(UnaryOperations.INV, Parameter('x')) == \
+                 UnaryOperation(UnaryOperations.INV, Parameter('y'))
 
         self.assertEqual(False, result,
                          f"Unary-Operation-Lexeme equality not matching: {False} != {result}")
