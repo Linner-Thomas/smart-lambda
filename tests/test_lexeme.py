@@ -57,7 +57,7 @@ class TestLexeme(unittest.TestCase):
                          f"Constant-Lexeme equality not matching: {True} != {result}")
 
     @test("LEXEME CONSTANT EQ-WRONG-TYPE")
-    def testConstantEqFalse(self):
+    def testConstantEqWrongType(self):
         print(f"\t Validate: Constant('x') == Parameter('x') -> {False}")
 
         result = Constant('x') == Parameter('x')
@@ -66,7 +66,7 @@ class TestLexeme(unittest.TestCase):
                          f"Constant-Lexeme equality not matching: {True} != {result}")
 
     @test("LEXEME PARAMETER REPR")
-    def testConstantReprInt(self):
+    def testParameterRepr(self):
         expected = f"Parameter(x)"
 
         print(f"\t Validate: Parameter('x') -> {expected}")
@@ -95,7 +95,7 @@ class TestLexeme(unittest.TestCase):
                          f"Parameter-Lexeme equality not matching: {True} != {result}")
 
     @test("LEXEME PARAMETER EQ-WRONG-TYPE")
-    def testParameterEqFalse(self):
+    def testParameterEqWrongType(self):
         print(f"\t Validate: Parameter('x') == Constant('x') -> {False}")
 
         result = Parameter('x') == Constant('x')
