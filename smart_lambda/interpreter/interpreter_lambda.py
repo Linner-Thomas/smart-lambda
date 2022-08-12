@@ -3,6 +3,7 @@ from typing import List, TypeVar, Union
 from smart_lambda.lexeme import Lexeme
 from smart_lambda.interpreter.interpreter_lexeme import InterpreterLexeme
 from smart_lambda.interpreter.interpreter_constant import InterpreterConstant
+from smart_lambda.interpreter.interpreter_parameter import InterpreterParameter
 
 # Define type-variable for lambda return-type
 T = TypeVar('T')
@@ -14,7 +15,8 @@ class InterpreterLambda:
     """
     available_interpreter: List[InterpreterLexeme] =\
         [
-            InterpreterConstant
+            InterpreterConstant,
+            InterpreterParameter
         ]
 
     def __init__(self, lexemes: List[Lexeme]):
@@ -25,7 +27,7 @@ class InterpreterLambda:
         """
         self.lexemes = lexemes
 
-    def interpret(self) -> T:
+    def interpret(self, **kwargs) -> T:
         """
         Interpret the internal lexemes and return return-value.
 
@@ -33,7 +35,7 @@ class InterpreterLambda:
         """
         # The lambda function only contains a single statement
         # Interpreting the last lexeme should interpret the whole function (tree-structure)
-        return self.get_interpreter(self.lexemes[-1]).interpret(self.lexemes[-1])
+        return self.get_interpreter(self.lexemes[-1]).interpret(self.lexemes[-1], **kwargs)
 
     def get_interpreter(self, lexeme: Lexeme) -> Union[InterpreterLexeme, None]:
         """

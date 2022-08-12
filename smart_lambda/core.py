@@ -65,4 +65,5 @@ class SmartLambda:
 
         :return: Return-Value of internal lexemes
         """
-        return InterpreterLambda(self.lexemes).interpret()
+        # Currently all arguments have to be given as keyword-parameter
+        return InterpreterLambda(self.lexemes).interpret(**kwargs)

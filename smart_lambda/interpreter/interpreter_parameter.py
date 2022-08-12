@@ -1,32 +1,36 @@
 from typing import TypeVar
 
-from smart_lambda.lexeme import Constant
+from smart_lambda.lexeme import Parameter
 from smart_lambda.interpreter.interpreter_lexeme import InterpreterLexeme
 
 # Define type-variable for lexeme return-type
 T = TypeVar('T')
 
 
-class InterpreterConstant(InterpreterLexeme):
+class InterpreterParameter(InterpreterLexeme):
     """
     TODO
     """
     # List of valid lexemes for the lexeme-interpreter
     lexemes = \
         [
-            Constant
+            Parameter
         ]
 
     @classmethod
-    def interpret(cls, lexeme: Constant, **kwargs) -> T:
+    def interpret(cls, lexeme: Parameter, **kwargs) -> T:
         """
-        Interprets the given constant and returns its value.
+        Interprets the given parameter and returns its value.
 
-        :param lexeme: Constant to interpret
+        :param lexeme: Parameter to interpret
         :param kwargs: Dictionary containing arguments for lambda-function
 
-        :return: Value of constant
+        :return: Value of parameter
         """
         super().interpret(lexeme)
 
-        return lexeme.value
+        # Invalid argument
+        if lexeme.name not in kwargs:
+            return None
+
+        return kwargs[lexeme.name]

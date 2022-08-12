@@ -14,13 +14,14 @@ class InterpreterLexeme:
     lexemes = []
 
     @classmethod
-    def interpret(cls, lexeme: Lexeme) -> T:
+    def interpret(cls, lexeme: Lexeme, **kwargs) -> T:
         """
         Interprets the given lexeme and returns its return value.
 
         This method has to be overridden by each lexeme-interpreter.
 
         :param lexeme: Lexeme to interpret
+        :param kwargs: Dictionary containing arguments for lambda-function
 
         :return: Return-Value of lexeme
         """
