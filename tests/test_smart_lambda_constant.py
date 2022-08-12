@@ -6,29 +6,33 @@ from smart_lambda.lexeme import Constant
 
 
 class TestSmartLambdaParseConstant(unittest.TestCase):
-    @test("SMART-LAMBDA PARSE-CONSTANT NO-CONSTANT")
-    def testParseNoConstant(self):
-        expected = []
+    @test("SMART-LAMBDA CONSTANT NONE")
+    def testConstantNone(self):
+        constants_expected = [Constant(None)]
+        result_expected = None
 
-        print(f"\t Validate: (lambda x: x) -> {expected}")
-
-        s_lambda = SmartLambda(lambda x: x)
-        constants = s_lambda.constants
-
-        self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{expected} != {constants}")
-
-    @test("SMART-LAMBDA PARSE-CONSTANT NONE-CONSTANT")
-    def testParseNoneConstant(self):
-        expected = [Constant(None)]
-
-        print(f"\t Validate: (lambda: None) -> {expected}")
+        print(f"\t Parsing lambda ...")
+        print(f"\t \t Input \t\t lambda: None")
+        print(f"\t \t Expected \t {constants_expected}")
 
         s_lambda = SmartLambda(lambda: None)
-        constants = s_lambda.constants
+        constants_parsed = s_lambda.constants
 
-        self.assertEqual(expected, constants, f"Smart-Lambda parsed constants not matching: "
-                                              f"{expected} != {constants}")
+        self.assertEqual(constants_expected, constants_parsed,
+                         f"The parsed constants aren't matching the expectation! \n"
+                         f"Expected \t {constants_expected} \n"
+                         f"Parsed \t \t {constants_parsed}")
+
+        print(f"\t Interpreting lambda ...")
+        print(f"\t \t Input \t\t lambda: None")
+        print(f"\t \t Expected \t {result_expected}")
+
+        result_interpreted = s_lambda()
+
+        self.assertEqual(result_expected, result_interpreted,
+                         f"The interpreted result isn't matching the expectation! \n"
+                         f"Expected \t {result_expected} \n"
+                         f"Parsed \t \t {result_interpreted}")
 
     @test("SMART-LAMBDA PARSE-CONSTANT INT-CONSTANT")
     def testParseIntConstant(self):

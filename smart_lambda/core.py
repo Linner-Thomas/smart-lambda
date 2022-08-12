@@ -1,6 +1,7 @@
 from typing import Callable, TypeVar
 
 from smart_lambda.parser.parser_lambda import ParserLambda
+from smart_lambda.interpreter.interpreter_lambda import InterpreterLambda
 from smart_lambda.lexeme import Parameter, Constant, BinaryOperation, UnaryOperation
 
 # Define type-variable for lambda return-type
@@ -54,14 +55,14 @@ class SmartLambda:
 
     def __call__(self, *args, **kwargs) -> T:
         """
-        Override call-method to allow the execution of the underlying lambda-function.
+        Override call-method, this will interpret the internal lexemes and return its return-value.
 
         Usage:
         val = s_lambda()
 
-        :param args:   Positional parameter to lambda-function
-        :param kwargs: Keyword parameter to lambda-function
+        :param args:   Positional-Parameter
+        :param kwargs: Keyword-Parameter
 
-        :return: Return-Value of underlying lambda-function
+        :return: Return-Value of internal lexemes
         """
-        return self.function(*args, **kwargs)
+        return InterpreterLambda(self.lexemes).interpret()

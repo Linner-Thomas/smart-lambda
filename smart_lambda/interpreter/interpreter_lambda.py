@@ -31,7 +31,9 @@ class InterpreterLambda:
 
         :return: Return-Value of interpreted lexemes
         """
-        return None
+        # The lambda function only contains a single statement
+        # Interpreting the last lexeme should interpret the whole function (tree-structure)
+        return self.get_interpreter(self.lexemes[-1]).interpret(self.lexemes[-1])
 
     def get_interpreter(self, lexeme: Lexeme) -> Union[InterpreterLexeme, None]:
         """
