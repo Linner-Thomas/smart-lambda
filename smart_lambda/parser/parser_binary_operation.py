@@ -2,7 +2,7 @@ from typing import List, Union
 
 from dis import Instruction
 
-from smart_lambda.lexeme import Lexeme, BinaryOperation, BinaryOperations
+from smart_lambda.lexeme import Lexeme, BinaryOperation, BinaryOperations, UnaryOperation
 from smart_lambda.parser.parser_lexeme import ParserLexeme
 
 
@@ -60,6 +60,10 @@ class ParserBinaryOperation(ParserLexeme):
             # If lexeme was binary operation, skip next two lexemes (operands of operation)
             if isinstance(lexeme, BinaryOperation):
                 next(lexemes_iter)
+                next(lexemes_iter)
+
+            # If lexeme was unary operation, skip next lexeme (operand of operation)
+            if isinstance(lexeme, UnaryOperation):
                 next(lexemes_iter)
 
             # Break when 2 operands where found

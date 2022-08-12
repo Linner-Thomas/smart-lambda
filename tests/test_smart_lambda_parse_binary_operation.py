@@ -2,7 +2,7 @@ import unittest
 from util import test
 
 from smart_lambda.core import SmartLambda
-from smart_lambda.lexeme import BinaryOperation, BinaryOperations, Constant, Parameter
+from smart_lambda.lexeme import BinaryOperation, BinaryOperations, Constant, Parameter, UnaryOperation, UnaryOperations
 
 
 class TestSmartLambdaBinaryOperation(unittest.TestCase):
@@ -225,6 +225,20 @@ class TestSmartLambdaBinaryOperation(unittest.TestCase):
         print(f"\t Validate: (lambda x, y, z: x * y + x * z) -> {expected}")
 
         s_lambda = SmartLambda(lambda x, y, z: x * y + x * z)
+        operations = s_lambda.binary_operations
+
+        self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
+
+    @test("SMART-LAMBDA PARSE-BINARY-OPERATION UNARY-OPERATION")
+    def testParseUnaryOperation(self):
+        operation_inv = UnaryOperation(UnaryOperations.INV, Parameter('y'))
+        operation_add = BinaryOperation(BinaryOperations.ADD, [Parameter('x'), operation_inv])
+
+        expected = [operation_add]
+
+        print(f"\t Validate: (lambda x, y: x + ~y) -> {expected}")
+
+        s_lambda = SmartLambda(lambda x, y: x + ~y)
         operations = s_lambda.binary_operations
 
         self.assertEqual(expected, operations, f"Smart-Lambda operations not matching: {expected} != {operations}")
