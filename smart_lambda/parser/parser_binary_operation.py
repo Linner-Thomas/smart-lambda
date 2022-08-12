@@ -2,7 +2,7 @@ from typing import List, Union
 
 from dis import Instruction
 
-from smart_lambda.lexeme import Lexeme, BinaryOperation, BinaryOperations
+from smart_lambda.lexeme import Lexeme, BinaryOperation, BinaryOperations, UnaryOperation
 from smart_lambda.parser.parser_lexeme import ParserLexeme
 
 
@@ -50,21 +50,15 @@ class ParserBinaryOperation(ParserLexeme):
 
         :return: List of operands
         """
-        operands = []
+        operands = [lexemes[-1]]
 
-        # Iterate lexemes in reversed order
-        lexemes_iter = iter(lexemes[::-1])
-        for lexeme in lexemes_iter:
-            operands.append(lexeme)
+        if isinstance(operands[0], UnaryOperation):
+            operands.append(lexemes[-3])
 
-            # If lexeme was binary operation, skip next two lexemes (operands of operation)
-            if isinstance(lexeme, BinaryOperation):
-                next(lexemes_iter)
-                next(lexemes_iter)
+        elif isinstance(operands[0], BinaryOperation):
+            operands.append(lexemes[-4])
 
-            # Break when 2 operands where found
-            if len(operands) == 2:
-                break
+        else:
+            operands.append(lexemes[-2])
 
-        # Fix order of operands and return
         return operands[::-1]
