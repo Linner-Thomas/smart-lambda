@@ -118,7 +118,7 @@ class BinaryOperation(Lexeme):
 class UnaryOperations(Enum):
     POS = '+'
     NEG = '-'
-    NOT = '~'
+    INV = '~'
 
 
 class UnaryOperation(Lexeme):
