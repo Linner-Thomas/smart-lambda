@@ -1,7 +1,7 @@
 import unittest
 from util import test
 
-from smart_lambda.lexeme import Constant, Parameter, BinaryOperation, BinaryOperations
+from smart_lambda.lexeme import Constant, Parameter, BinaryOperation, BinaryOperations, UnaryOperation, UnaryOperations
 
 
 class TestLexeme(unittest.TestCase):
@@ -13,8 +13,8 @@ class TestLexeme(unittest.TestCase):
 
         constant = Constant(None)
 
-        self.assertEqual(expected, constant.__repr__(),
-                         f"Constant-Lexeme representation not matching: {expected} != {constant.__repr__()}")
+        self.assertEqual(expected, repr(constant),
+                         f"Constant-Lexeme representation not matching: {expected} != {repr(constant)}")
 
     @test("LEXEME CONSTANT REPR-INT")
     def testConstantReprInt(self):
@@ -24,8 +24,8 @@ class TestLexeme(unittest.TestCase):
 
         constant = Constant(1)
 
-        self.assertEqual(expected, constant.__repr__(),
-                         f"Constant-Lexeme representation not matching: {expected} != {constant.__repr__()}")
+        self.assertEqual(expected, repr(constant),
+                         f"Constant-Lexeme representation not matching: {expected} != {repr(constant)}")
 
     @test("LEXEME CONSTANT REPR-STR")
     def testConstantReprStr(self):
@@ -35,8 +35,8 @@ class TestLexeme(unittest.TestCase):
 
         constant = Constant('str')
 
-        self.assertEqual(expected, constant.__repr__(),
-                         f"Constant-Lexeme representation not matching: {expected} != {constant.__repr__()}")
+        self.assertEqual(expected, repr(constant),
+                         f"Constant-Lexeme representation not matching: {expected} != {repr(constant)}")
 
     @test("LEXEME CONSTANT EQ-TRUE")
     def testConstantEqTrue(self):
@@ -73,8 +73,8 @@ class TestLexeme(unittest.TestCase):
 
         parameter = Parameter('x')
 
-        self.assertEqual(expected, parameter.__repr__(),
-                         f"Parameter-Lexeme representation not matching: {expected} != {parameter.__repr__()}")
+        self.assertEqual(expected, repr(parameter),
+                         f"Parameter-Lexeme representation not matching: {expected} != {repr(parameter)}")
 
     @test("LEXEME PARAMETER EQ-TRUE")
     def testParameterEqTrue(self):
@@ -111,8 +111,8 @@ class TestLexeme(unittest.TestCase):
 
         operation = BinaryOperation(BinaryOperations.ADD, [Constant(1), Parameter('x')])
 
-        self.assertEqual(expected, operation.__repr__(),
-                         f"Binary-Operation-Lexeme representation not matching: {expected} != {operation.__repr__()}")
+        self.assertEqual(expected, repr(operation),
+                         f"Binary-Operation-Lexeme representation not matching: {expected} != {repr(operation)}")
 
     @test("LEXEME BINARY-OPERATION REPR-PARAM-CONST")
     def testBinaryOperationReprParamConst(self):
@@ -122,8 +122,8 @@ class TestLexeme(unittest.TestCase):
 
         operation = BinaryOperation(BinaryOperations.ADD, [Parameter('x'), Constant(1)])
 
-        self.assertEqual(expected, operation.__repr__(),
-                         f"Binary-Operation-Lexeme representation not matching: {expected} != {operation.__repr__()}")
+        self.assertEqual(expected, repr(operation),
+                         f"Binary-Operation-Lexeme representation not matching: {expected} != {repr(operation)}")
 
     @test("LEXEME BINARY-OPERATION EQ-TRUE")
     def testBinaryOperationEqTrue(self):
@@ -154,3 +154,55 @@ class TestLexeme(unittest.TestCase):
 
         self.assertEqual(False, result,
                          f"Binary-Operation-Lexeme equality not matching: {False} != {result}")
+
+    @test("LEXEME UNARY-OPERATION REPR-CONST")
+    def testUnaryOperationReprConst(self):
+        expected = f"Operation(~Constant(1))"
+
+        print(f"\t Validate: UnaryOperation(UnaryOperations.NEG, Constant(1)) -> {expected}")
+
+        operation = UnaryOperation(UnaryOperations.NOT, Constant(1))
+
+        self.assertEqual(expected, repr(operation),
+                         f"Unary-Operation-Lexeme representation not matching: {expected} != {repr(operation)}")
+
+    @test("LEXEME UNARY-OPERATION REPR-PARAM")
+    def testUnaryOperationReprParam(self):
+        expected = f"Operation(~Parameter(x))"
+
+        print(f"\t Validate: UnaryOperation(UnaryOperations.NEG, Parameter('x')) -> {expected}")
+
+        operation = UnaryOperation(UnaryOperations.NOT, Parameter('x'))
+
+        self.assertEqual(expected, repr(operation),
+                         f"Unary-Operation-Lexeme representation not matching: {expected} != {repr(operation)}")
+
+    @test("LEXEME UNARY-OPERATION EQ-TRUE")
+    def testUnaryOperationEqTrue(self):
+        print(f"\t Validate: ~Parameter(x) == ~Parameter(x) -> {True}")
+
+        result = UnaryOperation(UnaryOperations.NOT, Parameter('x')) == \
+                 UnaryOperation(UnaryOperations.NOT, Parameter('x'))
+
+        self.assertEqual(True, result,
+                         f"Unary-Operation-Lexeme equality not matching: {True} != {result}")
+
+    @test("LEXEME UNARY-OPERATION EQ-FALSE-OPERATION")
+    def testUnaryOperationEqFalseOperation(self):
+        print(f"\t Validate: ~Parameter(x) == -Parameter(x) -> {False}")
+
+        result = UnaryOperation(UnaryOperations.NOT, Parameter('x')) == \
+                 UnaryOperation(UnaryOperations.NEG, Parameter('x'))
+
+        self.assertEqual(False, result,
+                         f"Unary-Operation-Lexeme equality not matching: {False} != {result}")
+
+    @test("LEXEME UNARY-OPERATION EQ-FALSE-OPERAND")
+    def testUnaryOperationEqFalseOperand(self):
+        print(f"\t Validate: ~Parameter(x) == ~Parameter(y) -> {False}")
+
+        result = UnaryOperation(UnaryOperations.NOT, Parameter('x')) == \
+                 UnaryOperation(UnaryOperations.NOT, Parameter('y'))
+
+        self.assertEqual(False, result,
+                         f"Unary-Operation-Lexeme equality not matching: {False} != {result}")
