@@ -116,9 +116,12 @@ class BinaryOperation(Lexeme):
 
 
 class UnaryOperations(Enum):
-    POS = '+'
-    NEG = '-'
-    INV = '~'
+    POS = ('+', lambda op: +op)
+    NEG = ('-', lambda op: -op)
+    INV = ('~', lambda op: ~op)
+
+    def __getitem__(self, item):
+        return self[item]
 
 
 class UnaryOperation(Lexeme):
@@ -135,8 +138,11 @@ class UnaryOperation(Lexeme):
         self.operation: UnaryOperations = operation
         self.operand: Lexeme = operand
 
+    def apply(self, value):
+        return self.operation.value[1](value)
+
     def __repr__(self):
-        return f"Operation({self.operation.value}{self.operand})"
+        return f"Operation({self.operation.value[0]}{self.operand})"
 
     def __eq__(self, other: UnaryOperation) -> bool:
         """

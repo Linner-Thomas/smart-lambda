@@ -18,15 +18,16 @@ class InterpreterConstant(InterpreterLexeme):
         ]
 
     @classmethod
-    def interpret(cls, lexeme: Constant, **kwargs) -> T:
+    def interpret(cls, interpreter_base, lexeme: Constant, **kwargs) -> T:
         """
         Interprets the given constant and returns its value.
 
+        :param interpreter_base Reference to base-interpreter (InterpreterLambda)
         :param lexeme: Constant to interpret
         :param kwargs: Dictionary containing arguments for lambda-function
 
         :return: Value of constant
         """
-        super().interpret(lexeme)
+        super().interpret(interpreter_base, lexeme, **kwargs)
 
         return lexeme.value
