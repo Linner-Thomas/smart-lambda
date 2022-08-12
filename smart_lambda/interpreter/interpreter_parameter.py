@@ -18,16 +18,17 @@ class InterpreterParameter(InterpreterLexeme):
         ]
 
     @classmethod
-    def interpret(cls, lexeme: Parameter, **kwargs) -> T:
+    def interpret(cls, interpreter_base, lexeme: Parameter, **kwargs) -> T:
         """
         Interprets the given parameter and returns its value.
 
+        :param interpreter_base Reference to base-interpreter (InterpreterLambda)
         :param lexeme: Parameter to interpret
         :param kwargs: Dictionary containing arguments for lambda-function
 
         :return: Value of parameter
         """
-        super().interpret(lexeme)
+        super().interpret(interpreter_base, lexeme, **kwargs)
 
         # Invalid argument
         if lexeme.name not in kwargs:
